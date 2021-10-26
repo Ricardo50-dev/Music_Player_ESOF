@@ -1,5 +1,6 @@
 package com.example.music_player;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -31,11 +33,31 @@ public class PlayerActivity extends AppCompatActivity {
     ArrayList<File> mySongs;
     Thread updateseekbar;
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(visualizer != null){
+            visualizer.release();
+        }
+        super.onDestroy();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
+        getSupportActionBar().setTitle("Now playing");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         playbtn = findViewById(R.id.playbtn);
         prevbtn = findViewById(R.id.previousbtn);
         nextbtn = findViewById(R.id.nextbtn);
@@ -134,6 +156,10 @@ public class PlayerActivity extends AppCompatActivity {
                 nextbtn.performClick();
             }
         });
+        int audioSessaoId = mediaPlayer.getAudioSessionId();
+        if(audioSessaoId != -1){
+            visualizer.setAudioSessionId(audioSessaoId);
+        }
         nextbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,6 +172,10 @@ public class PlayerActivity extends AppCompatActivity {
                 txtname.setText(sname);
                 mediaPlayer.start();
                 playbtn.setBackgroundResource(R.drawable.ic_pause);
+                int audioSessaoId = mediaPlayer.getAudioSessionId();
+                if(audioSessaoId != -1){
+                    visualizer.setAudioSessionId(audioSessaoId);
+                }
             }
         });
         prevbtn.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +190,10 @@ public class PlayerActivity extends AppCompatActivity {
                 txtname.setText(sname);
                 mediaPlayer.start();
                 playbtn.setBackgroundResource(R.drawable.ic_pause);
+                int audioSessaoId = mediaPlayer.getAudioSessionId();
+                if(audioSessaoId != -1){
+                    visualizer.setAudioSessionId(audioSessaoId);
+                }
             }
         });
     }
