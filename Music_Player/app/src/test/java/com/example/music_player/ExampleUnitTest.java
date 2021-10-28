@@ -2,6 +2,8 @@ package com.example.music_player;
 
 import org.junit.Test;
 
+import java.sql.SQLOutput;
+import java.lang.Object;
 import static org.junit.Assert.*;
 
 /**
@@ -12,6 +14,10 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        assertEquals("2:00", PlayerActivity.createTime(120000));
+        assertEquals("1:30", PlayerActivity.createTime(90000));
+        assertEquals("1:45", PlayerActivity.createTime(105000));
+        assertEquals("0:45", PlayerActivity.createTime(45000));
+        assertEquals("1:00", PlayerActivity.createTime(155000));
     }
 }

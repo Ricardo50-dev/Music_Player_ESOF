@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class PlayerActivity extends AppCompatActivity {
+
     Button playbtn, prevbtn, nextbtn;
     TextView txtname, txtstart, txtstop;
     SeekBar seekmusic;
@@ -85,6 +86,7 @@ public class PlayerActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
         mediaPlayer.start();
 
+
         updateseekbar = new Thread(){
             @Override
             public void run() {
@@ -101,6 +103,7 @@ public class PlayerActivity extends AppCompatActivity {
                 }
             }
         };
+
         seekmusic.setMax(mediaPlayer.getDuration());
         updateseekbar.start();
         seekmusic.getProgressDrawable().setColorFilter(getResources().getColor(R.color.design_default_color_primary), PorterDuff.Mode.MULTIPLY);
@@ -197,7 +200,7 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
     }
-    public String createTime(int duration){
+    public static String createTime(int duration){
         String time = "";
         int min = duration/1000/60;
         int sec = duration/1000%60;
